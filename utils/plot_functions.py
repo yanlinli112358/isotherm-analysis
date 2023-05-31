@@ -55,6 +55,7 @@ def plot_folder_shifted(foldername):
     plt.show()
     os.chdir(Path(os.getcwd()).parent)
 
+#Come back here if plot_kink not work for cutted data
 def plot_kink_fig(foldername, conc_list):
     from utils.math_functions import kink_list
     kink_list = kink_list(foldername)

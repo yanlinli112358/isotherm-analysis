@@ -53,7 +53,7 @@ def fit_piecewise_partial(filename):
     p_cutted = []
     a_cutted = []
     i = 0
-    while p[i] < = 30:
+    while p[i] < 30:
         p_cutted.append(p[i])
         a_cutted.append(a[i])
         i += 1
