@@ -37,5 +37,9 @@ plt.savefig('KSCN_kink_pressure.png')
 plt.show()
 '''
 conc_list = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5]
+# from utils.plot_functions import plot_kink_fig
+# plot_kink_fig(folder1, conc_list)
+
 from utils.plot_functions import plot_kink_fig
 plot_kink_fig(folder1, conc_list)
+

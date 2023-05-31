@@ -89,6 +89,15 @@ def kink_list(foldername):
     os.chdir(Path(os.getcwd()).parent)
     return kink_list
 
+def kink_list_cutted_fit(foldername):
+    filenames = sort_file(foldername)
+    os.chdir(foldername)
+    kink_list = []
+    for i in range(len(filenames)):
+        kink_p = find_kink_partial(filenames[i])
+        kink_list.append(kink_p)
+    os.chdir(Path(os.getcwd()).parent)
+    return kink_list
 
 
 
