@@ -16,7 +16,7 @@ def plot_file(filename, legend, c):
     return None
 
 def plot_iso(area, pressure, legend, c):
-    plt.plot(area, pressure, label = legend, color = c)
+    plt.scatter(area, pressure, label = legend, color = c, s = 0.3)
     plt.legend()
 
 def plot_folder(foldername):
@@ -55,15 +55,18 @@ def plot_folder_shifted(foldername):
     plt.show()
     os.chdir(Path(os.getcwd()).parent)
 
+
+
 #Come back here if plot_kink not work for cutted data
 def plot_kink_fig(foldername, conc_list):
-    from utils.math_functions import kink_list
-    kink_list = kink_list(foldername)
+    from utils.math_functions import kink_list, kink_list_cutted_fit
+    kink_list = kink_list_cutted_fit(foldername)
     plt.scatter(conc_list, kink_list)
     plt.xlabel('concentration(mM)')
     plt.ylabel('transition pressure(dynes)')
     plt.savefig('kink_pressure')
     plt.show()
+    return kink_list
 
 
 

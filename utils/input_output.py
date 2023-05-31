@@ -75,7 +75,6 @@ def shift_data_lab(filename):
     area_shifted.tolist()
     pressure_shifted = np.array(pressure) - p0
     pressure_shifted.tolist()
-    print(area_shifted)
     # Save data to text file
     import os
 

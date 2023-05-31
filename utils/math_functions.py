@@ -19,9 +19,11 @@ def p(a, p0, p1, p2, a0, a1, a2):
     pressure = np.piecewise(a, cond_list, func_list)
     return pressure
 
-def p_partial(a, p0, a0, p1, a1, c2, b2):
+def p_partial(a, p0, p1, a0, a1, a2):
     c1 = (p1-p0)/(a1-a0)
-    b1 = p1 - c * a1
+    b1 = p1 - c1 * a1
+    c2 = (30-p1)/(a2-a1)
+    b2 = p1 - c2 * a1
     cond_list = [a < a1, (a1 <= a) & (a < a0), a > a0]
     func_list = [lambda a: c2 * a + b2, lambda a: c1 * a + b1, p0]
 
@@ -53,11 +55,12 @@ def fit_piecewise_partial(filename):
     p_cutted = []
     a_cutted = []
     i = 0
+    print(filename)
     while p[i] < 30:
         p_cutted.append(p[i])
-        a_cutted.append(a[i])
+        a_cutted.append(area[i])
         i += 1
-    popt, pcov = curve_fit(p_partial, a_cutted, p_cutted, p0 = (0, 25, 10, 22, -10, 230))
+    popt, pcov = curve_fit(p_partial, a_cutted, p_cutted, p0 = (0, 10, 23, 21, 19))
     return popt
 
 def find_kink_partial(filename):
