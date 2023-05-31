@@ -104,6 +104,46 @@ def kink_list_cutted_fit(foldername):
 
 
 
+## derivative method:
+def derivative(x, y):
+    dx = np.gradient(x)
+    dy = np.gradient(y)
+    dy_dx = dy / dx
+    return dy_dx
+
+def find_kink_df(filename):
+    area, p = get_data_lab(filename)
+    i = 0
+    area_cutted = []
+    p_cutted = []
+    while (p[i] < 0.2):
+        i += 1
+    while (p[i] < 45):
+        p_cutted.append(p[i])
+        area_cutted.append(area[i])
+        i += 1
+    dp_da = derivative(area_cutted, p_cutted)
+    j = 0
+    p_kink = p_cutted[j]
+    while (dp_da[j] > -10):
+        p_kink = p_cutted[j + 1]
+        #a_kink = area_cutted[j + 1]
+        j = j + 1
+    return p_kink
+
+def kink_list_df_fit(foldername):
+    filenames = sort_file(foldername)
+    os.chdir(foldername)
+    kink_list = []
+    for i in range(len(filenames)):
+        print(filenames[i])
+        kink_p = find_kink_df(filenames[i])
+        kink_list.append(kink_p)
+    os.chdir(Path(os.getcwd()).parent)
+    return kink_list
+
+
+
 
 
 

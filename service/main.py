@@ -4,11 +4,10 @@ import matplotlib.pyplot as plt
 
 main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
-folder1 = 'KF_ODA_2023_4'
+folder1 = 'KCl_ODA_2023_1'
 from utils.plot_functions import plot_folder_shifted, plot_folder
 
 plot_folder_shifted(folder1)
-plt.savefig('shifted_isotherms.png')
 
 '''
 from utils.math_functions import find_area_at_pressure
@@ -36,13 +35,16 @@ plt.title('KSCN')
 plt.savefig('KSCN_kink_pressure.png')
 plt.show()
 '''
-conc_list = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5]
+conc_list_F = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25, 1.5, 2]
+conc_list_Br = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5, 2]
+conc_list_SO4 = [0, 0.025, 0.05, 0.1, 0.2]
+conc_list_Cl = [0.1, 0.15, 0.2, 0.3, 0.4, 0.6, 1]
 # from utils.plot_functions import plot_kink_fig
 # plot_kink_fig(folder1, conc_list)
 
 
 from utils.plot_functions import plot_kink_fig
-kink_list = plot_kink_fig(folder1, conc_list)
+kink_list = plot_kink_fig(folder1, conc_list_Cl)
 print(kink_list)
 
 

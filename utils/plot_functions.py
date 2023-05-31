@@ -59,8 +59,10 @@ def plot_folder_shifted(foldername):
 
 #Come back here if plot_kink not work for cutted data
 def plot_kink_fig(foldername, conc_list):
-    from utils.math_functions import kink_list, kink_list_cutted_fit
-    kink_list = kink_list_cutted_fit(foldername)
+    from utils.math_functions import kink_list, kink_list_df_fit
+    kink_list = kink_list_df_fit(foldername)
+    print(kink_list)
+    print(conc_list)
     plt.scatter(conc_list, kink_list)
     plt.xlabel('concentration(mM)')
     plt.ylabel('transition pressure(dynes)')
