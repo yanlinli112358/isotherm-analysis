@@ -42,12 +42,27 @@ def find_min_area(filename):
     min_area = popt[-1]
     return min_area
 
+from scipy.optimize import curve_fit
 def fit_piecewise(filename):
     area_per_m, pressure = get_data_lab(filename)
-    from scipy.optimize import curve_fit
     popt, pcov = curve_fit(p, area_per_m, pressure, p0=(0, 10, 60, 22, 20, 15))
     return popt
 
+def fit_piecewise_partial(filename):
+    area, p = get_data_lab(filename)
+    p_cutted = []
+    a_cutted = []
+    i = 0
+    while p[i] < = 30:
+        p_cutted.append(p[i])
+        a_cutted.append(a[i])
+        i += 1
+    popt, pcov = curve_fit(p_partial, a_cutted, p_cutted, p0 = (0, 25, 10, 22, -10, 230))
+    return popt
+
+def find_kink_partial(filename):
+    popt = fit_piecewise_partial(filename)
+    return popt[2] - popt[0]
 
 def find_collapse_area(filename):
     area_per_m, pressure = get_data_lab(filename)
