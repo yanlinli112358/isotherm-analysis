@@ -118,7 +118,7 @@ def find_kink_df(filename):
     p_cutted = []
     while (p[i] < 0.2):
         i += 1
-    while (p[i] < 45):
+    while (p[i] < 50):
         p_cutted.append(p[i])
         area_cutted.append(area[i])
         i += 1
@@ -141,6 +141,16 @@ def kink_list_df_fit(foldername):
         kink_list.append(kink_p)
     os.chdir(Path(os.getcwd()).parent)
     return kink_list
+
+##fit with Lagmuir isotherm
+def langmuir_iso(c, pmax, kd):
+    return pmax * c / (kd + c)
+
+def fit_langmuir(concentration, kink_pressure):
+    popt, pcov = curve_fit(langmuir_iso, concentration, kink_pressure, p0 = (30, 0.5))
+    pmax = popt[0]
+    kd = popt[1]
+    return pmax, kd
 
 
 

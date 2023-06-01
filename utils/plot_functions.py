@@ -66,9 +66,28 @@ def plot_kink_fig(foldername, conc_list):
     plt.scatter(conc_list, kink_list)
     plt.xlabel('concentration(mM)')
     plt.ylabel('transition pressure(dynes)')
-    plt.savefig('kink_pressure')
+    plt.savefig(os.path.join(foldername, 'kink_pressure'))
     plt.show()
     return kink_list
+
+def plot_langmuir_fit(concentration, kink_pressure, title):
+    from utils.math_functions import langmuir_iso, fit_langmuir
+    plt.xlabel('concentration(mM)')
+    plt.ylabel('pressure(dynes)')
+    plt.ylim(0, 50)
+    plt.title(title)
+    plt.scatter(concentration, kink_pressure)
+    pmax, kd = fit_langmuir(concentration, kink_pressure)
+    s = 'pmax = ' + str(round(pmax, 2)) + ', kd = ' + str(round(pmax, 2))
+    plt.text(concentration[-1] - concentration[-1] / 2.5, 45, s)
+    plt.plot(concentration, langmuir_iso(concentration, pmax, kd))
+    plt.savefig(title + '_langmuir_fit.png')
+    plt.show()
+
+
+
+
+
 
 
 
