@@ -5,10 +5,11 @@ import numpy as np
 
 main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
-folder1 = 'KBr_ODA_2023_1'
+folder1 = 'KCl_ODA_2023_1'
 from utils.plot_functions import plot_folder_shifted, plot_folder
 
 plot_folder_shifted(folder1)
+plot_folder(folder1)
 
 '''
 from utils.math_functions import find_area_at_pressure
@@ -37,7 +38,8 @@ plt.savefig('KSCN_kink_pressure.png')
 plt.show()
 '''
 conc_list_F = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25, 1.5, 2]
-conc_list_Br = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5, 2]
+conc_list_Br = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5, 2]
+conc_list_I = [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25]
 conc_list_SO4 = [0, 0.025, 0.05, 0.1, 0.2]
 conc_list_Cl = [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 1]
 # from utils.plot_functions import plot_kink_fig
@@ -45,11 +47,11 @@ conc_list_Cl = [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 1]
 
 
 from utils.plot_functions import plot_kink_fig
-kink_list = plot_kink_fig(folder1, conc_list_Br)
+kink_list = plot_kink_fig(folder1, conc_list_Cl)
 print(kink_list)
 
 from utils.plot_functions import plot_langmuir_fit
-plot_langmuir_fit(np.array(conc_list_Br), np.array(kink_list), title='KBr')
+plot_langmuir_fit(np.array(conc_list_Cl), np.array(kink_list), title='Cl')
 
 
 

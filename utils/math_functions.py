@@ -118,14 +118,17 @@ def find_kink_df(filename):
     p_cutted = []
     while (p[i] < 0.2):
         i += 1
-    while (p[i] < 50):
+    while (p[i] < 50 or p[i] < max(p)):
         p_cutted.append(p[i])
         area_cutted.append(area[i])
         i += 1
+    print(len(p_cutted))
     dp_da = derivative(area_cutted, p_cutted)
     j = 0
     p_kink = p_cutted[j]
-    while (dp_da[j] > -10):
+    while ((dp_da[j] > -10)or (dp_da[j+1] > -10)):
+        print(dp_da[j])
+        print(dp_da[j+1])
         p_kink = p_cutted[j + 1]
         #a_kink = area_cutted[j + 1]
         j = j + 1

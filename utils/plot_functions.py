@@ -59,7 +59,7 @@ def plot_folder_shifted(foldername):
 
 #Come back here if plot_kink not work for cutted data
 def plot_kink_fig(foldername, conc_list):
-    from utils.math_functions import kink_list, kink_list_df_fit
+    from utils.math_functions import kink_list, kink_list_cutted_fit, kink_list_df_fit
     kink_list = kink_list_df_fit(foldername)
     print(kink_list)
     print(conc_list)

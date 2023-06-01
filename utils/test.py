@@ -33,6 +33,24 @@ from utils.math_functions import find_kink_df
 p_kink = find_kink_df(filename)
 print(p_kink)
 
+def plot_cutted_region(filename):
+    from utils.input_output import get_data_lab
+    area, p = get_data_lab(filename)
+    area_cutted = []
+    p_cutted = []
+    i = 0
+    while (p[i] < 0.2):
+        i += 1
+    while (p[i] < 50):
+        p_cutted.append(p[i])
+        area_cutted.append(area[i])
+        i += 1
+    plt.plot(area_cutted, p_cutted)
+    plt.show()
+
+plot_cutted_region(filename)
+
+
 
 
 
