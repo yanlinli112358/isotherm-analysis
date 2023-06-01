@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-main_folder = '/Users/rachel/Isotherms/KBr_ODA_2023_1'
+main_folder = '/Users/rachel/Isotherms/KF_ODA_2023_4'
 os.chdir(main_folder)
-filename = 'ODA_2mM_KBr.txt'
+filename = 'KF_0.6mM.txt'
 def derivative(x, y):
     dx = np.gradient(x)
     dy = np.gradient(y)

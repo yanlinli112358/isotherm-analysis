@@ -74,7 +74,7 @@ def plot_langmuir_fit(concentration, kink_pressure, title):
     from utils.math_functions import langmuir_iso, fit_langmuir
     plt.xlabel('concentration(mM)')
     plt.ylabel('pressure(dynes)')
-    plt.ylim(0, 50)
+    plt.ylim(0, max(kink_pressure) + 3)
     plt.title(title)
     plt.scatter(concentration, kink_pressure)
     pmax, kd = fit_langmuir(concentration, kink_pressure)
