@@ -40,18 +40,18 @@ plt.show()
 conc_list_F = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25, 1.5, 2]
 conc_list_Br = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5, 2]
 conc_list_I = [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25]
-conc_list_SO4 = [0, 0.025, 0.05, 0.1, 0.2]
-conc_list_Cl = [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 1]
+conc_list_SO4 = [0, 0.01, 0.015, 0.02, 0.025, 0.03, 0.05, 0.075, 0.1]
+conc_list_Cl = [0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 0.75, 1, 1.5, 2, 2.5, 3, 5]
 # from utils.plot_functions import plot_kink_fig
 # plot_kink_fig(folder1, conc_list)
 
 
 from utils.plot_functions import plot_kink_fig
-kink_list = plot_kink_fig(folder1, conc_list_F)
+kink_list = plot_kink_fig(folder1, conc_list_SO4)
 print(kink_list)
 
 from utils.plot_functions import plot_langmuir_fit
-plot_langmuir_fit(np.array(conc_list_F), np.array(kink_list), title='F')
+plot_langmuir_fit(np.array(conc_list_SO4), np.array(kink_list), title='SO4')
 
 
 
