@@ -1,5 +1,6 @@
 import os.path
 from pathlib import Path
+p0 = 3.07
 
 import matplotlib.pyplot as plt
 from utils.input_output import get_data_lab, sort_file
@@ -59,16 +60,17 @@ def plot_folder_shifted(foldername):
 
 #Come back here if plot_kink not work for cutted data
 def plot_kink_fig(foldername, conc_list):
-    from utils.math_functions import kink_list, kink_list_cutted_fit, kink_list_df_fit
+    from utils.math_functions import kink_list, kink_list_df_fit
     kink_list = kink_list_df_fit(foldername)
-    print(kink_list)
-    print(conc_list)
+    print(len(kink_list))
+    print(len(conc_list))
     plt.scatter(conc_list, kink_list)
     plt.xlabel('concentration(mM)')
     plt.ylabel('transition pressure(dynes)')
     plt.savefig(os.path.join(foldername, 'kink_pressure'))
     plt.show()
     return kink_list
+
 
 def plot_langmuir_fit(concentration, kink_pressure, title):
     from utils.math_functions import langmuir_iso, fit_langmuir
@@ -77,16 +79,36 @@ def plot_langmuir_fit(concentration, kink_pressure, title):
     plt.ylim(0, max(kink_pressure) + 3)
     plt.title(title)
     plt.scatter(concentration, kink_pressure)
-    pmax, kd = fit_langmuir(concentration, kink_pressure)
+    pmax, kd = fit_langmuir(concentration, kink_pressure, p0)
     s = 'pmax = ' + str(round(pmax, 2)) + ', kd = ' + str(round(kd, 3))
     print(kd)
     plt.text(concentration[-1] - concentration[-1] / 2.5, kink_pressure[-1] + 1, s)
-    plt.plot(concentration, langmuir_iso(concentration, pmax, kd))
-    plt.savefig(title + '_langmuir_fit.png')
+    plt.plot(concentration, langmuir_iso(concentration, pmax, kd, p0))
+    plt.savefig(os.path.join('Plots', title + '_langmuir_fit.png'))
     plt.show()
 
+def plot_single_kink(foldername, conc_list, label):
+    #plot function to be called to plot several kinks together
+    from utils.math_functions import kink_list, kink_list_df_fit
+    kink_list = kink_list_df_fit(foldername)
+    plt.plot(conc_list, kink_list, label = label, marker='o')
+    return kink_list
 
-
+def plot_langmuir_fit_linear(concentration, kink_pressure, title):
+    from utils.math_functions import fit_langmuir_linear, langmuir_iso_linear
+    plt.xlabel('concentration(mM)')
+    plt.ylabel('pressure(dynes)')
+    plt.ylim(0, max(kink_pressure) + 3)
+    plt.title(title)
+    plt.scatter(concentration, kink_pressure)
+    pmax, kd, b = fit_langmuir_linear(concentration, kink_pressure, p0)
+    s = 'pmax = ' + str(round(pmax, 2)) + ', kd = ' + str(round(kd, 3)) + ',b = ' + str(round(b, 3))
+    print(kd)
+    print(b)
+    plt.text(concentration[-1] - concentration[-1] / 2, kink_pressure[-1] + 1, s) #position of text
+    plt.plot(concentration, langmuir_iso_linear(concentration, pmax, kd, b, p0))
+    plt.savefig(os.path.join('Plots', title + '_langmuir_fit_linear_term.png'))
+    plt.show()
 
 
 

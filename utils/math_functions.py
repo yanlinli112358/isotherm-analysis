@@ -92,22 +92,12 @@ def kink_list(foldername):
     os.chdir(Path(os.getcwd()).parent)
     return kink_list
 
-def kink_list_cutted_fit(foldername):
-    filenames = sort_file(foldername)
-    os.chdir(foldername)
-    kink_list = []
-    for i in range(len(filenames)):
-        kink_p = find_kink_partial(filenames[i])
-        kink_list.append(kink_p)
-    os.chdir(Path(os.getcwd()).parent)
-    return kink_list
-
-
 
 ## derivative method:
 def derivative(x, y):
     dx = np.gradient(x)
     dy = np.gradient(y)
+    #catch error of divided by 0 (to be done)
     dy_dx = dy / dx
     return dy_dx
 
@@ -143,14 +133,23 @@ def kink_list_df_fit(foldername):
     return kink_list
 
 ##fit with Lagmuir isotherm
-def langmuir_iso(c, pmax, kd):
-    return pmax * c / (kd + c)
+def langmuir_iso(c, pmax, kd, p0):
+    return p0 + pmax * c / (kd + c)
 
-def fit_langmuir(concentration, kink_pressure):
-    popt, pcov = curve_fit(langmuir_iso, concentration, kink_pressure, p0 = (30, 0.5))
+def langmuir_iso_linear(c, pmax, kd, b, p0): #Langmuir isotherm witha linear term
+    return p0 + b*c + pmax * c/ (kd+c)
+
+def fit_langmuir(concentration, kink_pressure, p0):
+    popt, pcov = curve_fit(lambda c, pmax, kd:langmuir_iso(c, pmax, kd, p0= p0), concentration, kink_pressure, p0 = (30, 0.5))
     pmax = popt[0]
     kd = popt[1]
     return pmax, kd
+
+def fit_langmuir_linear(concentration, kink_pressure, p0):
+    popt, pcov = curve_fit(lambda c, pmax, kd, b: langmuir_iso_linear(c, pmax, kd, b, p0 = p0), concentration, kink_pressure, p0 = (30, 0.5, 10))
+    pmax, kd, b = popt
+    return pmax, kd, b
+
 
 
 
