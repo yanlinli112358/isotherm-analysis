@@ -6,13 +6,13 @@ p0 = 3.07
 
 main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
-ion = 'F'
-folder1 = 'KF_ODA_2023_4'
+ion = 'I'
 
 from utils.isotherm_library import ion_dic
 for key in ion_dic:
     if key==ion:
         conc_list = ion_dic[key]['conc_list']
+        folder1 = ion_dic[key]['folder']
 print(conc_list)
 
 from utils.plot_functions import plot_folder_shifted, plot_folder
