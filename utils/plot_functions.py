@@ -62,8 +62,6 @@ def plot_folder_shifted(foldername):
 def plot_kink_fig(foldername, conc_list):
     from utils.math_functions import kink_list, kink_list_df_fit
     kink_list = kink_list_df_fit(foldername)
-    print(len(kink_list))
-    print(len(conc_list))
     plt.scatter(conc_list, kink_list)
     plt.xlabel('concentration(mM)')
     plt.ylabel('transition pressure(dynes)')
@@ -81,7 +79,6 @@ def plot_langmuir_fit(concentration, kink_pressure, title):
     plt.scatter(concentration, kink_pressure)
     pmax, kd = fit_langmuir(concentration, kink_pressure, p0)
     s = 'pmax = ' + str(round(pmax, 2)) + ', kd = ' + str(round(kd, 3))
-    print(kd)
     plt.text(concentration[-1] - concentration[-1] / 2.5, kink_pressure[-1] + 1, s)
     plt.plot(concentration, langmuir_iso(concentration, pmax, kd, p0))
     plt.savefig(os.path.join('Plots', title + '_langmuir_fit.png'))
@@ -103,8 +100,6 @@ def plot_langmuir_fit_linear(concentration, kink_pressure, title):
     plt.scatter(concentration, kink_pressure)
     pmax, kd, b = fit_langmuir_linear(concentration, kink_pressure, p0)
     s = 'pmax = ' + str(round(pmax, 2)) + ', kd = ' + str(round(kd, 3)) + ',b = ' + str(round(b, 3))
-    print(kd)
-    print(b)
     plt.text(concentration[-1] - concentration[-1] / 2, kink_pressure[-1] + 1, s) #position of text
     plt.plot(concentration, langmuir_iso_linear(concentration, pmax, kd, b, p0))
     plt.savefig(os.path.join('Plots', title + '_langmuir_fit_linear_term.png'))

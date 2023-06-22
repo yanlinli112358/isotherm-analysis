@@ -97,8 +97,8 @@ def kink_list(foldername):
 def derivative(x, y):
     dx = np.gradient(x)
     dy = np.gradient(y)
-    #catch error of divided by 0 (to be done)
-    dy_dx = dy / dx
+    dy_dx = dy/dx
+    # Check for divide by zero error (to be done)
     return dy_dx
 
 def find_kink_df(filename):
@@ -106,7 +106,7 @@ def find_kink_df(filename):
     i = 0
     area_cutted = []
     p_cutted = []
-    while (p[i] < 0.2):
+    while (p[i] < 0.3):
         i += 1
     while (p[i] < 50 and p[i] < max(p)):
         p_cutted.append(p[i])

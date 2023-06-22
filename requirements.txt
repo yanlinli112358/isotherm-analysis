@@ -3,4 +3,6 @@ scipy>=1.9.3
 matplotlib
 pandas
 pathlib
+sympy
+
 

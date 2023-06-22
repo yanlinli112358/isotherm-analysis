@@ -18,4 +18,10 @@ for conc in conc_list:
 plt.plot(conc_list, pi_list2)
 plt.show()
 
+from utils.plot_functions import plot_folder
+folder = '/Users/rachel/Isotherms/0.1mM potassium salts'
+plot_folder(folder)
+plot_kink_fig(folder, ['water', 'F', 'HCO3', 'NO3', 'Cl', 'Br', 'SCN', 'I'])
+
+
 

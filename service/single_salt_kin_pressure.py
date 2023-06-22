@@ -2,18 +2,18 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-p0 = 3.07
+p0 = 2.371
 
 main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
-ion = 'I'
+ion = 'Br'
 
 from utils.isotherm_library import ion_dic
 for key in ion_dic:
     if key==ion:
         conc_list = ion_dic[key]['conc_list']
         folder1 = ion_dic[key]['folder']
-print(conc_list)
+
 
 from utils.plot_functions import plot_folder_shifted, plot_folder
 
@@ -46,13 +46,6 @@ plt.title('KSCN')
 plt.savefig('KSCN_kink_pressure.png')
 plt.show()
 '''
-conc_list_F = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25, 1.5, 2, 3, 4, 5, 7, 10, 15]
-conc_list_Br = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5, 2]
-conc_list_I = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25]
-conc_list_SO4 = [0, 0.0025, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.05, 0.075, 0.1]
-conc_list_Cl = [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 0.817, 1.10, 1.5, 2.15, 2.69, 3, 5]
-conc_list_NO3 = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75]
-conc_list_HCO3 = [0, 0.1, 0.2, 0.3, 0.4, 0.5]
 # from utils.plot_functions import plot_kink_fig
 # plot_kink_fig(folder1, conc_list)
 
