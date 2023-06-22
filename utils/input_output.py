@@ -67,14 +67,12 @@ def sort_file(foldername):
 
 def shift_data_lab(filename):
     area, pressure = get_data_lab(filename)
-    from utils.math_functions import find_collapse_area
-    from utils.math_functions import fit_piecewise
-    p0, p1, p2, a0, a1, a2 = fit_piecewise(filename)
-    area_shift = 19 - a2
+    from utils.math_functions import find_kink_df
+    p_kink = find_kink_df(filename)
+    kink_index = pressure.index(p_kink)
+    area_shift = 20 - area[kink_index]
     area_shifted = np.array(area) + area_shift
     area_shifted.tolist()
-    pressure_shifted = np.array(pressure) - p0
-    pressure_shifted.tolist()
     # Save data to text file
     import os
 
@@ -89,9 +87,9 @@ def shift_data_lab(filename):
     with open(save_path, 'w') as f:
         f.write('area_shifted\tpressure\n')
         for i in range(len(area)):
-            f.write('{}\t{}\n'.format(area_shifted[i], pressure_shifted[i]))
+            f.write('{}\t{}\n'.format(area_shifted[i], pressure[i]))
         f.close()
-    return area_shifted, pressure_shifted
+    return area_shifted, pressure
 
 '''
 def get_data_APS(filename):

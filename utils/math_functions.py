@@ -50,23 +50,6 @@ def fit_piecewise(filename):
     popt, pcov = curve_fit(p, area_per_m, pressure, p0=(0, 10, 60, 22, 20, 15))
     return popt
 
-def fit_piecewise_partial(filename):
-    area, p = get_data_lab(filename)
-    p_cutted = []
-    a_cutted = []
-    i = 0
-    print(filename)
-    while p[i] < 30:
-        p_cutted.append(p[i])
-        a_cutted.append(area[i])
-        i += 1
-    popt, pcov = curve_fit(p_partial, a_cutted, p_cutted, p0 = (0, 10, 23, 21, 19))
-    return popt
-
-def find_kink_partial(filename):
-    popt = fit_piecewise_partial(filename)
-    return popt[2] - popt[0]
-
 def find_collapse_area(filename):
     area_per_m, pressure = get_data_lab(filename)
     dpda = np.gradient(pressure, area_per_m)

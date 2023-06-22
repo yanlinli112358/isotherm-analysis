@@ -6,7 +6,7 @@ p0 = 2.371
 
 main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
-ion = 'Br'
+ion = 'SCN'
 
 from utils.isotherm_library import ion_dic
 for key in ion_dic:
@@ -17,7 +17,7 @@ for key in ion_dic:
 
 from utils.plot_functions import plot_folder_shifted, plot_folder
 
-#plot_folder_shifted(folder1)
+plot_folder_shifted(folder1)
 plot_folder(folder1)
 
 '''
