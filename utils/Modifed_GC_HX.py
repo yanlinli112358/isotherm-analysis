@@ -2,7 +2,7 @@
 anion X-) binding to NH2 instead of X- binding to NH3
 
 Parameters in the model:
-pKacid: pKA of the acid HX
+pH: pH of the bulk solution
 pKA: pKA of the molecule ODA
 pKd: pK (log dissociation) of the group HX- to NH2
 c_ion: bulk concentration of the ion X- in M
@@ -12,39 +12,56 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 pH = 5.7
-pKacid = 3.17
-pKd = 0.318
-pKA = 10.5
-c_ion = 1e-3
+pKd = 0.277
+pKA = 10.6
 
-def x_ion_expression(x_H, c_ion, pH, pKacid, pKd, pKA):
-    c_total = c_ion + 10 ** (-pH)
-    print(c_total)
-    in_sinh = (134 * x_H)/ (20 * np.sqrt(c_total)) #A = 20
-    print(np.arcsinh(in_sinh))
-    pK_terms = pKacid +pKd -pKA
-    print(pK_terms)
-    power = pK_terms + np.log10(x_H) + np.log10(c_ion) + 0.87 * np.arcsinh(in_sinh)
-    print(power)
-    return 10 ** (power)
+def x_ion_expression(x_H, c_ion, pH, pKA, pKd):
+    power = pH - pKA - pKd - np.log10(c_ion)
+    return (1 - x_H) / (np.power(10, power) + 1)
 
-print(x_ion_expression(0.9, 1e-3, pH, pKacid, pKd, pKA))
-
-def get_x_H(c_ion, pH, pKacid, pKd, pKA):
-    def g(x_H, c_ion, pH):
+def get_x_H(c_ion, pH, pKA, pKd):
+    def g(c_ion, pH): #LHS
         c_total = c_ion + 10 ** (-pH)
-        return 0.87 * np.arcsinh(134 * x_H / (20 * np.sqrt(c_total)))
+        return 20 * np.sqrt(c_total) #assume A = 20, 134/20 = 6.7
 
-    def f(x_H, c_ion, pH, pKacid, pKd, pKA):
-        x_ion = x_ion_expression(x_H, c_ion, pH, pKacid, pKd, pKA)
-        return np.log10((1- x_H - x_ion) / x_H) - pH - pKA
+    def f(x_H, c_ion, pH, pKA, pKd): #RHS
+        x_ion = x_ion_expression(x_H, c_ion, pH, pKA, pKd)
+        in_log = (1 - x_H - x_ion) / x_H
+        in_sinh = (np.log10(in_log) - pH + pKA) / 0.87
+
+        numerator = 134 * x_H
+        denominator = np.sinh(in_sinh)
+        return numerator / denominator
 
     def objective(x_H):
-        return abs(g(x_H, c_ion, pH) - f(x_H, c_ion, pH, pKacid, pKd, pKA))
+        return abs(g(c_ion, pH) - f(x_H, c_ion, pH, pKA, pKd))
 
     from scipy.optimize import minimize_scalar
-    res = minimize_scalar(objective, bounds=(0, 1), method='bounded')
+    res = minimize_scalar(objective, bounds=(0, 1), method='Bounded')
+    print(objective(res.x))
     return res.x
 
-print(x_ion_expression(get_x_H(1e-3, 5.7, -9, 0.22, 10.5), 1e-3, 5.7, -9, 0.22, 10.5))
+x_H_example = get_x_H(1e-4, pH, pKA, pKd)
+print(x_H_example)
+x_ion_example = x_ion_expression(x_H_example, 1e-4, pH, pKA, pKd)
+print(x_ion_example)
+print(x_H_example + x_ion_example)
+
+def xH_list(conc_list, pH, pKA, pKd):
+    ion_frac_list = []
+    for c in conc_list:
+        xH_frac = get_x_H(c, pH, pKA, pKd)
+        ion_frac_list.append(xH_frac)
+    return ion_frac_list
+
+def x_ion_list(conc_list, pH, pKA, pKd):
+    x_ion_list = []
+    x_H_list = xH_list(conc_list, pH, pKA, pKd):
+    for i in range(len(x_H_list)):
+        x_ion = x_ion_expression(x_H_list[i], conc_list[i], pH, pKA, pKd)
+        x_ion_list.append(x_ion)
+
+    return x_ion_list
+
+
 

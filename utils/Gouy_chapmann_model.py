@@ -21,7 +21,7 @@ def ion_frac(salt_conc, pH, pKa, A):
     #res is the solutions that minimize the difference b/w LHS and RHS
     from scipy.optimize import minimize_scalar
     res = minimize_scalar(objective, bounds=(0, 1), method='bounded')
-
+    print(objective(res.x))
     return res.x
 
 def surface_charge_den(conc, pH, pKa, A):
@@ -40,12 +40,9 @@ def delta_pi(conc, pH, pKa, A):
     x = ion_frac(conc, pH, pKa, A)
     phi = surface_potential(conc, pH, pKa, A)
     tanh = np.tanh(electron_cahrge * phi / (4 * kB * T))
-    print(tanh)
     dPi = 2 * kB * T * x / (A * 1e-20) * tanh / electron_cahrge
     return dPi
 
 conc = 1e-3
-print(ion_frac(conc, 5.7, 10.5, A))
-print(surface_potential(conc, 5.7, 10.5, A))
-print(delta_pi(conc, 5.7, 10.5, A))
+print(ion_frac(conc, 5.7, 10.5, 20))
 
