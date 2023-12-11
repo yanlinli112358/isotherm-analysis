@@ -49,6 +49,8 @@ def plot_cutted_region(filename):
     plt.show()
 
 plot_cutted_region(filename)
+from utils.math_functions import check_slope
+check_slope()
 
 
 

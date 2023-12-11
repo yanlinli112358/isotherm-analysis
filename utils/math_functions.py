@@ -98,7 +98,7 @@ def find_kink_df(filename):
     dp_da = derivative(area_cutted, p_cutted)
     j = 0
     p_kink = p_cutted[j]
-    while ((dp_da[j] > -10)or (dp_da[j+1] > -10)):
+    while ((dp_da[j] > -9) and (dp_da[j+1] > -9)):
         p_kink = p_cutted[j]
         #a_kink = area_cutted[j + 1]
         j = j + 1
@@ -119,7 +119,7 @@ def kink_list_df_fit(foldername):
 def langmuir_iso(c, pmax, kd, p0):
     return p0 + pmax * c / (kd + c)
 
-def langmuir_iso_linear(c, pmax, kd, b, p0): #Langmuir isotherm witha linear term
+def langmuir_iso_linear(c, pmax, kd, b, p0): #Langmuir isotherm with a linear term
     return p0 + b*c + pmax * c/ (kd+c)
 
 def fit_langmuir(concentration, kink_pressure, p0):
@@ -132,6 +132,26 @@ def fit_langmuir_linear(concentration, kink_pressure, p0):
     popt, pcov = curve_fit(lambda c, pmax, kd, b: langmuir_iso_linear(c, pmax, kd, b, p0 = p0), concentration, kink_pressure, p0 = (30, 0.5, 10))
     pmax, kd, b = popt
     return pmax, kd, b
+
+def check_slope(concentration, kink_pressure, p0):
+    pmax, kd = fit_langmuir(concentration, kink_pressure, p0)
+    theta_list = (np.array(kink_pressure) - p0)/pmax
+    y = concentration[1:]/theta_list[1:]
+    x = concentration[1:]
+    plt.plot(x, y, marker = 'o')
+    def linear(x, slope, b):
+        return slope * x + b
+    popt, pcov = curve_fit(lambda x, slope: linear(x, slope, b = kd), x, y)
+    slope= popt[0]
+    print('slope of the isotherm is ' + str(slope))
+    print('intercept of the isotherm is ' + str(kd))
+    plt.text(.8, 0.9, s = 'slope = ' + str(slope))
+    plt.plot(x, linear(x, slope, kd))
+    plt.xlabel('c')
+    plt.ylabel('c/theta')
+    plt.savefig('linearized_langmuir.png')
+    plt.show()
+
 
 
 

@@ -6,7 +6,7 @@ main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
 
 folder_list = ['KF_ODA_2023_4', 'KNO3_ODA_2023_6', 'KCl_ODA_2023_1', 'KBr_ODA_2023_1', 'KClO4_ODA_2023_6',
-               'KI_ODA_2023_1', 'KSCN_ODA_2023_6']
+               'KI_ODA_2023_1', 'KSCN_ODA_2023_6', 'KBF4_ODA_2023_8']
 conc_list = []
 
 from utils.isotherm_library import ion_dic

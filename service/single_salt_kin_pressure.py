@@ -6,13 +6,13 @@ p0 = 2.371
 
 main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
-ion = 'SCN'
+ion = 'I'
 
 from utils.isotherm_library import ion_dic
 for key in ion_dic:
     if key==ion:
         conc_list = ion_dic[key]['conc_list']
-        folder1 = ion_dic[key]['folder']
+        folder1 = ion_dic[key]['folder'] ##folder location is in isotherm library
 
 
 from utils.plot_functions import plot_folder_shifted, plot_folder
@@ -57,8 +57,9 @@ print(kink_list)
 from utils.plot_functions import plot_langmuir_fit
 plot_langmuir_fit(np.array(conc_list), np.array(kink_list), title=ion)
 
-from utils.plot_functions import plot_langmuir_fit_linear
-plot_langmuir_fit_linear(np.array(conc_list), np.array(kink_list), title=ion)
+from utils.math_functions import check_slope
+check_slope(np.array(conc_list), kink_list, p0)
+
 
 
 

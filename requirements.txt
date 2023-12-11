@@ -4,5 +4,8 @@ matplotlib
 pandas
 pathlib
 sympy
+tkinter
+
+
 
 

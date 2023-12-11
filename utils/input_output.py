@@ -5,7 +5,7 @@ import re
 
 mw = 269.5
 conc = 0.278 #concentration in mg/ml
-add_volume = 100 #in ul
+add_volume = 60 #in ul
 avogadros_num = 6.02e23
 num_molecules = conc * add_volume/1e3 * avogadros_num/mw
 def get_data_lab(filename): #get XF data from fluo_data
@@ -32,6 +32,13 @@ def get_data_lab(filename): #get XF data from fluo_data
     area_per_m = [x/num_molecules * 1e17 for x in area]
     return area_per_m, pressure
 
+def write_area_pressure(savename, area, pressure):
+    with open(savename, 'w') as f:
+        f.write('area\tpressure\n')
+        for i in range(len(area)):
+            f.write('{}\t{}\n'.format(area[i], pressure[i]))
+        f.close()
+    return None
 
 # def get_data_5clmn(filename):
 #     area = []
@@ -63,7 +70,9 @@ def sort_file(foldername):
                 n = sum(float(x) for x in name_number)
             num.append([n, name])
     num.sort(key = lambda x:x[0])
-    return [x[1] for x in num]
+    new_list = [x[1] for x in num]
+
+    return new_list
 
 def shift_data_lab(filename):
     area, pressure = get_data_lab(filename)
@@ -73,22 +82,16 @@ def shift_data_lab(filename):
     area_shift = 20 - area[kink_index]
     area_shifted = np.array(area) + area_shift
     area_shifted.tolist()
-    # Save data to text file
-    import os
+    # # Define the new folder path
+    # folder_path = './calibrated_data'
+    # # Check if the folder already exists
+    # if not os.path.exists(folder_path):
+    #     # Create the new folder if it doesn't exist
+    #     os.makedirs(folder_path)
+    # save_path = os.path.join(folder_path, 'shifted_' + filename)
 
-    # Define the new folder path
-    folder_path = './calibrated_data'
-
-    # Check if the folder already exists
-    if not os.path.exists(folder_path):
-        # Create the new folder if it doesn't exist
-        os.makedirs(folder_path)
-    save_path = os.path.join(folder_path, filename)
-    with open(save_path, 'w') as f:
-        f.write('area_shifted\tpressure\n')
-        for i in range(len(area)):
-            f.write('{}\t{}\n'.format(area_shifted[i], pressure[i]))
-        f.close()
+    savename = filename[:-4] + '_shfited' + filename[-4:]
+    #write_area_pressure(savename, area_shifted, pressure)
     return area_shifted, pressure
 
 '''

@@ -1,9 +1,10 @@
 import os.path
 from pathlib import Path
 p0 = 3.07
+import numpy as np
 
 import matplotlib.pyplot as plt
-from utils.input_output import get_data_lab, sort_file
+from utils.input_output import get_data_lab, sort_file, write_area_pressure
 def plot_piecewise(a, popt): #a:area, popt: list of parameter
     from math_functions import p
     p0, p1, p2, a0, a1, a2 = popt
@@ -14,22 +15,28 @@ def plot_file(filename, legend, c):
     area_per_m, pressure = get_data_lab(filename)
     plt.plot(area_per_m, pressure, label=legend, color = c)
     plt.legend()
-    return None
+    return area_per_m, pressure
+
+def plot(filename):
+    area_per_m, pressure = get_data_lab(filename)
+    plt.plot(area_per_m, pressure)
+    plt.show()
+    return area_per_m, pressure
 
 def plot_iso(area, pressure, legend, c):
-    plt.scatter(area, pressure, label = legend, color = c, s = 0.3)
-    plt.legend()
+    fig, = plt.plot(area, pressure, label = legend, color = c)
+    return fig
 
 def plot_folder(foldername):
     filenames = sort_file(foldername)
     os.chdir(foldername)
-    cmap = plt.get_cmap('viridis')
+    cmap = plt.get_cmap('tab10')
     for i in range(len(filenames)):
         from utils.input_output import shift_data_lab
         file = filenames[i]
         area, pressure = get_data_lab(file)
         legend = file[:-4]
-        c = cmap(i/len(filenames))
+        c = cmap(i)
         plot_iso(area, pressure, legend, c)
     plt.grid()
     plt.xlabel('area (Angstrom^2)')
@@ -98,6 +105,7 @@ def plot_langmuir_fit_linear(concentration, kink_pressure, title):
     plt.ylim(0, max(kink_pressure) + 3)
     plt.title(title)
     plt.scatter(concentration, kink_pressure)
+    plt.show()
     pmax, kd, b = fit_langmuir_linear(concentration, kink_pressure, p0)
     s = 'pmax = ' + str(round(pmax, 2)) + ', kd = ' + str(round(kd, 3)) + ',b = ' + str(round(b, 3))
     plt.text(concentration[-1] - concentration[-1] / 2, kink_pressure[-1] + 1, s) #position of text
@@ -105,6 +113,15 @@ def plot_langmuir_fit_linear(concentration, kink_pressure, title):
     plt.savefig(os.path.join('Plots', title + '_langmuir_fit_linear_term.png'))
     plt.show()
 
+
+def plot_shift_iso_area(filename, shift_scale, legend, c):
+    area, pressure = get_data_lab(filename)
+    shifted_area = np.array(area) * shift_scale
+    savename = filename + '_shifted_scale_' + str(shift_scale) + '.txt'
+    write_area_pressure(savename, shifted_area, pressure)
+    plot_iso(shifted_area, pressure, legend=filename, c = c)
+    plt.show()
+    return shifted_area, pressure
 
 
 
