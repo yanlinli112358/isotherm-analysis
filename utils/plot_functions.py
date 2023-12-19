@@ -1,7 +1,7 @@
 import os.path
 from pathlib import Path
-p0 = 3.07
 import numpy as np
+p0 = 2.371
 
 import matplotlib.pyplot as plt
 from utils.input_output import get_data_lab, sort_file, write_area_pressure
@@ -63,6 +63,27 @@ def plot_folder_shifted(foldername):
     plt.show()
     os.chdir(Path(os.getcwd()).parent)
 
+def plot_folder_calibrated(foldername):
+    filenames = sort_file(foldername)
+    for file in filenames:
+        print(file)
+        area = []
+        pressure = []
+        filepath = os.path.join(foldername, file)
+        f = open(filepath, 'r')
+        line = f.readline()
+        while line:
+            data = line.split()
+            area.append(float(data[0]))
+            pressure.append(float(data[1]))
+            line = f.readline()
+        plt.plot(area, pressure, label = file[:-4])
+    plt.xlabel(r'area per molecule ($\AA^2$)')
+    plt.ylabel('pressure (mN/m)')
+    plt.legend()
+    savename = os.path.join(foldername + 'calibrated_isotherm.png')
+    plt.savefig(savename)
+    plt.show()
 
 
 #Come back here if plot_kink not work for cutted data

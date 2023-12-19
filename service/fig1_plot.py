@@ -41,26 +41,29 @@ ydata = langmuir_iso(xdata, pmax, kd, 2.371)
 
 
 fig, (ax_top, ax_bottom) = plt.subplots(2, 1, figsize=(6, 8))
+ax_top.text(0.02, 0.95, '(a)', transform=ax_top.transAxes, fontsize=12, va='top', ha='left')
+ax_bottom.text(0.02, 0.95, '(b)', transform=ax_bottom.transAxes, fontsize=12, va='top', ha='left')
+
 i = 0
 for line in lines:
     ax_top.plot(line.get_xdata(), line.get_ydata(), label=label_list[i])
     i+=1
-if not ax_top.get_legend():
-    ax_top.legend()
-ax_top.set_xlabel(r'$c_salt$')
+ax_top.legend()
+ax_top.set_xlim(5, 60)
+ax_top.set_xlabel('area/molecule ($\AA^2$)')
 ax_top.set_ylabel('pressure (mN/m)')
 
 ax_bottom.scatter(conc_list, kink_list, color='royalblue')
 ax_bottom.plot(xdata, ydata, color = 'tab:blue')
-ax_bottom.set_xlabel('area/molecule $\AA^2$')
+ax_bottom.set_xlabel(r'$c_{salt}$')
 ax_bottom.set_ylabel(r'$\Pi_t$ (mN/m)')
-s = r'$\Pi_max$ = ' + str(round(pmax,2)) + r'(mN/m), $k_d$ = ' + str(round(kd, 2) + 'mM')
-ax_bottom.text(1.0, 5, s, horizontalalignment='center', verticalalignment='center')
+s = r'$\Pi_{max}$ = ' + str(round(pmax, 2)) + r'mN/m, $k_d$ = ' + str(round(kd, 3)) + 'mM'
+ax_bottom.text(0.9, 5, s, horizontalalignment='center', verticalalignment='center')
 
 fig.tight_layout()
 
-fig.show()
 plt.savefig('/Users/rachel/NU research/paper_fig1.png')
+fig.show()
 
 
 

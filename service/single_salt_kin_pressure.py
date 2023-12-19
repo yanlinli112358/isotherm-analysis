@@ -6,7 +6,7 @@ p0 = 2.371
 
 main_folder = '/Users/rachel/Isotherms/'
 os.chdir(main_folder)
-ion = 'I'
+ion = 'Cl'
 
 from utils.isotherm_library import ion_dic
 for key in ion_dic:

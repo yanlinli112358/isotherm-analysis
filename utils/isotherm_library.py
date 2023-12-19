@@ -1,32 +1,36 @@
 ion_dic = {
     'F':{
         'conc_list': [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25, 1.5, 2, 3, 4, 5, 7, 10, 15],
-        'folder': 'KF_ODA_2023_4'
+        'folder': '/Users/rachel/Isotherms/KF_ODA_2023_4',
+        'conc_list_short': [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25, 1.5, 2],
+        'folder_short': '/Users/rachel/Isotherms/KF_ODA_short'
     },
 
     'NO3': {
         'conc_list': [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75],
-        'folder': 'KNO3_ODA_2023_6'
+        'folder': '/Users/rachel/Isotherms/KNO3_ODA_2023_6'
     },
 
     'Cl':{
-        'conc_list': [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 0.817, 1.10, 1.5, 2.15, 2.69, 3, 5],
-        'folder': 'KCl_ODA_2023_1'
+        'conc_list': [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 0.75, 1.0, 1.5, 2, 2.5, 3, 5],
+        'folder': '/Users/rachel/Isotherms/KCl_ODA_2023_1',
+        'conc_list_short': [0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 0.75, 1.0, 1.5, 2],
+        'folder_short': '/Users/rachel/Isotherms/KCl_ODA_short',
     },
 
     'Br': {
         'conc_list': [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.5, 2],
-        'folder': 'KBr_ODA_2023_1'
+        'folder': '/Users/rachel/Isotherms/KBr_ODA_2023_1'
     },
 
     'I': {
-        'conc_list': [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.6, 0.75, 1, 1.25],
+        'conc_list': [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1, 1.25],
         'folder': '/Users/rachel/Isotherms/KI_ODA_2023_1'
     },
 
     'SCN': {
         'conc_list': [0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75, 1],
-        'folder': 'KSCN_ODA_2023_6'
+        'folder': '/Users/rachel/Isotherms/KSCN_ODA_2023_6'
     },
 
     'SO4': {
@@ -35,23 +39,23 @@ ion_dic = {
 
     'ClO4': {
         'conc_list': [0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6],
-        'folder': 'KClO4_ODA_2023_6'
+        'folder': '/Users/rachel/Isotherms/KClO4_ODA_2023_6'
     },
 
     'BF4': {
         #'conc_list': [0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.75],
         'conc_list': [0, 0.01, 0.015, 0.02, 0.025, 0.035, 0.05, 0.06, 0.075, 0.1],
-        'folder': 'KBF4_ODA_2023_8',
+        'folder': '/Users/rachel/Isotherms/KBF4_ODA_2023_8',
     },
 
     'ClO4_2': {
         'conc_list': [0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4],
-        'folder': 'KClO4_ODA_2023_7'
+        'folder': '/Users/rachel/Isotherms/KClO4_ODA_2023_7'
     },
 
     'ClO4_3':{
         'conc_list': [0, 0.025, 0.035, 0.05, 0.075, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4],
-        'folder': 'KClO4_ODA_second_2023_7'
+        'folder': '/Users/rachel/Isotherms/KClO4_ODA_second_2023_7'
     }
 }
 

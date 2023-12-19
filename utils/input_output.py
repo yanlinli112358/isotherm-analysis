@@ -40,22 +40,6 @@ def write_area_pressure(savename, area, pressure):
         f.close()
     return None
 
-# def get_data_5clmn(filename):
-#     area = []
-#     pressure = []
-#     f = open(filename, 'r')
-#     line = f.readline()
-#     while line:
-#         data = line.split()
-#         if data[1].isdigit():
-#             area.append((43344-float(data[1])) * 1e14 / num_molecules)
-#             pressure.append(float(data[4]))
-#         line = f.readline()
-#     f.close()
-#     return area, pressure
-
-
-#sort the files in folder in order of the number in the filename, and return the sorted filenames as a list
 def sort_file(foldername):
     filenames = os.listdir(foldername)
     num = []
@@ -97,3 +81,74 @@ def shift_data_lab(filename):
 '''
 def get_data_APS(filename):
 '''
+def read_monolayer(filename):
+    import csv
+    # Create an empty dictionary to store the data
+    monolayer_dict = {}
+    # Read the CSV file and populate the dictionary
+    with open(filename, 'r') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            subphase = row['subphase']
+            mw = float(row['mw'])
+            stock_conc = float(row['stock_conc'])
+            add_volume = float(row['add_volume'])
+
+            monolayer_dict[subphase] = {
+                'mw': mw,
+                'stock_conc': stock_conc,
+                'add_volume': add_volume
+            }
+    return monolayer_dict
+
+def calibrate_folder_different_monolayer(foldername):
+    filenames = sort_file(foldername)
+    if os.listdir(foldername).__contains__('monolayer_info.csv'):
+        monolayer_dict = read_monolayer(os.path.join(foldername, 'monolayer_info.csv'))
+        for file in filenames:
+            ## read the barrier position and pressure first
+            barrier_position = []
+            pressure = []
+            filepath = os.path.join(foldername, file)
+            f = open(filepath, 'r')
+            line = f.readline()
+            while (line[0].isnumeric() != True):
+                line = f.readline()
+            while (line and line != '}\n'):
+                if '\\tab' in line:
+                    # Split using '\tab'
+                    data = re.split(r'\s*\\tab\s*', line)
+                else:
+                    # Split using '\t'
+                    data = line.split()
+                barrier_position.append(float(data[1]))
+                pressure.append(float(data[5]))  # I = 2D array of energies = energies each Qz
+                line = f.readline()
+            f.close()
+
+            ## calibrate the area per molecule according to recorded monolayer info
+            subphase = file[:-4]
+            troughlength = 205
+            troughwidth = 120
+            if subphase in monolayer_dict:
+                print(subphase)
+                mw = monolayer_dict[subphase]['mw']
+                stock_conc = monolayer_dict[subphase]['stock_conc']
+                add_volume = monolayer_dict[subphase]['add_volume']
+                num_molecules = stock_conc * add_volume / 1e3 * avogadros_num / mw
+                area = [(troughlength - x) * troughwidth for x in barrier_position]
+                area_per_m = [x / num_molecules * 1e17 for x in area]
+                #save the calibrated data into calibrated folder
+                savepath = os.path.join(foldername, 'calibrated_data')
+                if not os.path.exists(savepath):
+                    os.makedirs(savepath)
+                savename = subphase + '.txt'
+                f_save = open(os.path.join(savepath, savename), 'w')
+                data_combined = list(zip(area_per_m, pressure))
+                for x, y in data_combined:
+                    f_save.write(f"{x} {y}\n")
+                f_save.close()
+    else:
+        print('The folder has same monolayer for each file. use get_data_lab instead')
+
+
